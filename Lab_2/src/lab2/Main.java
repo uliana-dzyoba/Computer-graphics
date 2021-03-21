@@ -3,6 +3,7 @@ package lab2;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.GeneralPath;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,6 +21,14 @@ public class Main extends JPanel implements ActionListener {
     private static int screenwidth = 145;
     private static int screenheight = 120;
     private static int btndistance = 25;
+    private static int starx = -tvwidth/2+86;
+    private static int stary = -tvheight/2+75;
+    
+    double points[][] = {
+    		{starx-25, stary}, {starx-5, stary-5}, {starx, stary-25}, {starx+5, stary-5},
+    		{starx+25, stary}, {starx+5, stary+5}, {starx, stary+25}, {starx-5, stary+5},
+    		{starx-25, stary}
+    };
 
     private double angle = 0;
 
@@ -51,16 +60,25 @@ public class Main extends JPanel implements ActionListener {
         g2d.setStroke(bs1);
         g2d.drawRect(20, 20, maxWidth-50, maxHeight-50);
         
+        GeneralPath star = new GeneralPath();
+        star.moveTo(points[0][0], points[0][1]);
+        for (int k = 1; k < points.length; k++)
+        	star.lineTo(points[k][0], points[k][1]);
+        star.closePath();
+        
         g2d.translate(maxWidth / 2, maxHeight / 2);
         g2d.translate(tx, ty);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)scale));
+        
+        g2d.setColor(new Color(255, 165, 0));
+        g2d.fillRect(-tvwidth/2, -tvheight/2, tvwidth, tvheight);
 
         GradientPaint gp = new GradientPaint(5, 25, Color.YELLOW, 20, 2, Color.BLUE, true);
         g2d.setPaint(gp);
         g2d.fillRoundRect(-tvwidth/2+15, -tvheight/2+15, screenwidth, screenheight, 25, 25);
         
-        g2d.setColor(new Color(255, 165, 0));
-        g2d.fillRect(-tvwidth/2, -tvheight/2, tvwidth, tvheight);
+        g2d.setColor(Color.YELLOW);
+        g2d.draw(star);
 
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT,
@@ -78,7 +96,6 @@ public class Main extends JPanel implements ActionListener {
         for(int i=1; i<=3; i++) {
         	g2d.drawLine(screenwidth/2+10, tvheight/2-btndistance*i, screenwidth/2+10, tvheight/2-btndistance*i);
         }
-
     }
 
     public void actionPerformed(ActionEvent e) {
