@@ -113,15 +113,6 @@ public class Main extends JFrame implements ActionListener, KeyListener {
         return new TextureLoader(textureResource.getPath(), canvas);
     }
 
-    private Material getMaterial() {
-        Material material = new Material();
-        material.setAmbientColor(new Color3f(new Color(243, 242, 221)));
-        material.setDiffuseColor(new Color3f(new Color(255, 233, 207)));
-        material.setSpecularColor(new Color3f(new Color(255, 203, 195)));
-        material.setLightingEnable(true);
-        return material;
-    }
-
     private void addTexture() throws IOException {
         Texture texture = getTextureLoader("paper3.jpg").getTexture();
         texture.setBoundaryModeS(Texture.WRAP);
